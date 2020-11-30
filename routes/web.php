@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\homeController;
-use App\Http\Controllers\barangController;
-use App\Http\Controllers\dataController;
-
+use App\Http\Controllers\produkController;
+use App\Http\Controllers\pelangganController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,13 +13,33 @@ use App\Http\Controllers\dataController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('/', [homeController::Class, 'index'])->name('utama');
+Route ::get('/aboutus', function() {
+    echo "Ini Merupakan Contoh Sebuah Page(page about)";
+})->name ("tentang");
 
-Route::get('/barang', [barangController::Class, 'index'])->name('barang');
+Route::get('/show/{id?}',function($id=1){
+    echo "Parameter ID: ".$id;
+})->where('id','[0-9]+');
 
-Route::resource('/data', dataController::class);
+Route::get('/utama',function(){
+    echo "Ini Page Utama";
+    echo "<br>";
+    echo "<a href='".route ('tentang')."'>about</a>";
+});
+Route::get('/halaman',function(){
+    $title = 'Harry Pooter';
+    $konten = 'harry potter and the deathly hallows: part 2';
+    return view('konten.halaman',compact('title','konten'));
+});
+
+Route::get ('/produk',[produkController::class ,'index']);
+
+Route::get ('/produk/show',[produkController::class ,'show']);
+
+Route::get ('/pelanggan',[pelangganController::class ,'index']);
+
